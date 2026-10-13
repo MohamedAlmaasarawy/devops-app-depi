@@ -24,13 +24,13 @@ jobs:
         run: echo "short_tag=${GITHUB_SHA::7}" >> "$GITHUB_ENV"
 
       - name: Build Docker image
-        run: docker build -t ${{ vars.DOCKER_USERNAME }}/devops-app:latest .
+        run: docker build -t "${{ vars.DOCKER_USERNAME }}/devops-app:latest" .
 
-      - name: Tag image
-        run: docker tag ${{ vars.DOCKER_USERNAME }}/devops-app:latest ${{ vars.DOCKER_USERNAME }}/devops-app:${{ env.short_tag }}
+      - name: Tag Docker image
+        run: docker tag "${{ vars.DOCKER_USERNAME }}/devops-app:latest" "${{ vars.DOCKER_USERNAME }}/devops-app:${{ env.short_tag }}"
 
       - name: Push Docker image with latest tag
-        run: docker push ${{ vars.DOCKER_USERNAME }}/devops-app:latest
+        run: docker push "${{ vars.DOCKER_USERNAME }}/devops-app:latest"
 
       - name: Push Docker image with commit tag
-        run: docker push ${{ vars.DOCKER_USERNAME }}/devops-app:${{ env.short_tag }}
+        run: docker push "${{ vars.DOCKER_USERNAME }}/devops-app:${{ env.short_tag }}"
