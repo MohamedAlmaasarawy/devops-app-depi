@@ -59,5 +59,6 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_rsa ubuntu@${{ vars.EC2_SERVER_IP }} << 'EOF'
             cd /home/ubuntu/app
+            sudo docker compose pull
             docker-compose restart
           EOF
