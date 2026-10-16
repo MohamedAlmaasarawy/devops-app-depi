@@ -55,10 +55,14 @@ jobs:
           chmod 400 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ vars.EC2_SERVER_IP }} >> ~/.ssh/known_hosts
 
+      - name: Get short commit tag
+        run: echo "short_tag=${GITHUB_SHA::7}" >> "$GITHUB_ENV"    
+
       - name: Deploy to prod
         run: |
           ssh -i ~/.ssh/id_rsa ubuntu@${{ vars.EC2_SERVER_IP }} << 'EOF'
             cd /home/ubuntu/app
+            export IMAGE_TAG=${{ env.short_tag }}
             sudo docker compose pull
             sudo docker compose up -d
           EOF

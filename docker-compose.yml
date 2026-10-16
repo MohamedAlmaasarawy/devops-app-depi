@@ -1,7 +1,7 @@
 services:
 
   web:
-    image: mohamedmamouh/devops-app:latest
+    image: mohamedmamouh/devops-app:${IMAGE_TAG}
     ports: 
       - "8080:80"
     container_name: devops-app
