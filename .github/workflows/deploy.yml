@@ -43,3 +43,21 @@ jobs:
           tags: |
             ${{ vars.DOCKER_USERNAME }}/devops-app:${{ env.short_tag }}
             ${{ vars.DOCKER_USERNAME }}/devops-app:latest
+
+  deploy:
+    needs: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.LINUX_KEY }}" > ~/.ssh/id_rsa
+          chmod 400 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ vars.EC2_SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to prod
+        run: |
+          ssh -i ~/.ssh/id_rsa ubuntu@${{ vars.EC2_SERVER_IP }} << 'EOF'
+            cd /home/ubuntu/devops-app
+            docker-compose restart
+          EOF
