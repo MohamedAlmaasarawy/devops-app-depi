@@ -58,6 +58,6 @@ jobs:
       - name: Deploy to prod
         run: |
           ssh -i ~/.ssh/id_rsa ubuntu@${{ vars.EC2_SERVER_IP }} << 'EOF'
-            cd /home/ubuntu/devops-app
+            cd /home/ubuntu/app
             docker-compose restart
           EOF
